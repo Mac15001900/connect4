@@ -1,2 +1,4 @@
-# onlineGameTemplate
-A template for an online game using a static website and Scaledrone.
+# Connect 4.1
+An online game of Connect 4, but with a large board and changing terrain.
+
+Very WIP.
