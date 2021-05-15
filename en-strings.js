@@ -8,7 +8,7 @@ var enStrings = {
 	"left_game": "has left the game",
 	"you": "you",
 	"sends_message": "Sends a message",
-	"": "",
+	"column_full": "This column is already full!",
 	"": "",
 	"": "",
 }

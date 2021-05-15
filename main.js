@@ -7,9 +7,10 @@ const DOM = {
     input: document.querySelector('#textInput'),
     exampleButton: document.querySelector('#exampleButton'),
     exampleInput: document.querySelector('#exampleInput'),
+    cell: (x, y) => document.querySelector('#board .row' + y + ' .col' + x),
 };
 
-var gs = { received: false, }; //GameState, this is shared with any player that joins the game
+var gs = { received: false, order: [], currentTurn: -1, };
 
 
 //Name and room selection
@@ -141,6 +142,36 @@ function translate() {
 }
 
 initLanguage(); //Must be called before any user interaction
+
+//Game logic
+const BOARD_HEIGHT = 15;
+const BOARD_WIDTH = 20;
+const CELL_COLORS = ["#1be7ff", "#b85173", "#aceca1", "#ffcab1", "#736ac8", "#b79ced"] //Made with https://coolors.co/1be7ff-b85173-aceca1-ffcab1-736ac8-b79ced
+var cells = [];
+for (var i = 0; i < BOARD_HEIGHT; i++) {
+    cells.append([]);
+    for (var j = 0; j < BOARD_WIDTH; j++) {
+        cells[i].append(-1);
+    }
+}
+
+function setCell(x, y, player) {
+    DOM.cell(x, BOARD_HEIGHT - 1 - y).style.backgroundColor = CELL_COLORS[player]
+    cells[x][y] = player
+}
+
+function clicked(cell) {
+    var x = test.cellIndex;
+    var y = BOARD_HEIGHT - 1 - test.parentNode.rowIndex
+    console.log(cell)
+
+    if (cells[x, BOARD_HEIGHT - 1] >= 0) {
+        alert(s.column_full);
+        return;
+    }
+
+
+}
 
 
 //Networking

@@ -15,6 +15,7 @@
       flex-direction: column;
       max-height: 100vh;
       font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: rgb(42, 42, 52);
     }
 
     .membersList,
@@ -106,12 +107,375 @@
       background: linear-gradient(to bottom, #f6f6f6 5%, #ffffff 100%);
       background-color: #f6f6f6;
     }
+
+    #board {
+      border-collapse: collapse;
+      border-spacing: 0;
+      table-layout: fixed;
+      height: 600px
+    }
+
+    #board td {
+      border-color: #d4d4d4;
+      border-style: solid;
+      border-width: 1px;
+    }
   </style>
 </head>
 
 <body>
 
   <div id="membersList" class="membersList"></div>
+
+
+  <table id="board">
+    <tr class="row1">
+      <td class="col1" onclick="clicked(this)"></td>
+      <td class="col2" onclick="clicked(this)"></td>
+      <td class="col3" onclick="clicked(this)"></td>
+    </tr>
+    <tr class="row2">
+      <td class="col1" onclick="clicked(this)"></td>
+      <td class="col2" onclick="clicked(this)"></td>
+      <td class="col3" onclick="clicked(this)"></td>
+    </tr>
+  </table>
+
+
+  <table id="board2">
+    <tr class="row1">
+      <td class="col1"></td>
+      <td class="col2" onclick="alert('test')"></td>
+      <td class="col3"></td>
+      <td class="col4"></td>
+      <td class="col5"></td>
+      <td class="col6"></td>
+      <td class="col7"></td>
+      <td class="col8"></td>
+      <td class="col9"></td>
+      <td class="col10"></td>
+      <td class="col11"></td>
+      <td class="col12"></td>
+      <td class="col13"></td>
+      <td class="col14"></td>
+      <td class="col15"></td>
+      <td class="col16"></td>
+      <td class="col17"></td>
+      <td class="col18"></td>
+      <td class="col19"></td>
+      <td class="col20"></td>
+    </tr>
+    <tr class="row2">
+      <td class="col1"></td>
+      <td class="col2"></td>
+      <td class="col3"></td>
+      <td class="col4"></td>
+      <td class="col5"></td>
+      <td class="col6"></td>
+      <td class="col7"></td>
+      <td class="col8"></td>
+      <td class="col9"></td>
+      <td class="col10"></td>
+      <td class="col11"></td>
+      <td class="col12"></td>
+      <td class="col13"></td>
+      <td class="col14"></td>
+      <td class="col15"></td>
+      <td class="col16"></td>
+      <td class="col17"></td>
+      <td class="col18"></td>
+      <td class="col19"></td>
+      <td class="col20"></td>
+    </tr>
+    <tr class="row3">
+      <td class="col1"></td>
+      <td class="col2"></td>
+      <td class="col3"></td>
+      <td class="col4"></td>
+      <td class="col5"></td>
+      <td class="col6"></td>
+      <td class="col7"></td>
+      <td class="col8"></td>
+      <td class="col9"></td>
+      <td class="col10"></td>
+      <td class="col11"></td>
+      <td class="col12"></td>
+      <td class="col13"></td>
+      <td class="col14"></td>
+      <td class="col15"></td>
+      <td class="col16"></td>
+      <td class="col17"></td>
+      <td class="col18"></td>
+      <td class="col19"></td>
+      <td class="col20"></td>
+    </tr>
+    <tr class="row4">
+      <td class="col1"></td>
+      <td class="col2"></td>
+      <td class="col3"></td>
+      <td class="col4"></td>
+      <td class="col5"></td>
+      <td class="col6"></td>
+      <td class="col7"></td>
+      <td class="col8"></td>
+      <td class="col9"></td>
+      <td class="col10"></td>
+      <td class="col11"></td>
+      <td class="col12"></td>
+      <td class="col13"></td>
+      <td class="col14"></td>
+      <td class="col15"></td>
+      <td class="col16"></td>
+      <td class="col17"></td>
+      <td class="col18"></td>
+      <td class="col19"></td>
+      <td class="col20"></td>
+    </tr>
+    <tr class="row5">
+      <td class="col1"></td>
+      <td class="col2"></td>
+      <td class="col3"></td>
+      <td class="col4"></td>
+      <td class="col5"></td>
+      <td class="col6"></td>
+      <td class="col7"></td>
+      <td class="col8"></td>
+      <td class="col9"></td>
+      <td class="col10"></td>
+      <td class="col11"></td>
+      <td class="col12"></td>
+      <td class="col13"></td>
+      <td class="col14"></td>
+      <td class="col15"></td>
+      <td class="col16"></td>
+      <td class="col17"></td>
+      <td class="col18"></td>
+      <td class="col19"></td>
+      <td class="col20"></td>
+    </tr>
+    <tr class="row6">
+      <td class="col1"></td>
+      <td class="col2"></td>
+      <td class="col3"></td>
+      <td class="col4"></td>
+      <td class="col5"></td>
+      <td class="col6"></td>
+      <td class="col7"></td>
+      <td class="col8"></td>
+      <td class="col9"></td>
+      <td class="col10"></td>
+      <td class="col11"></td>
+      <td class="col12"></td>
+      <td class="col13"></td>
+      <td class="col14"></td>
+      <td class="col15"></td>
+      <td class="col16"></td>
+      <td class="col17"></td>
+      <td class="col18"></td>
+      <td class="col19"></td>
+      <td class="col20"></td>
+    </tr>
+    <tr class="row7">
+      <td class="col1"></td>
+      <td class="col2"></td>
+      <td class="col3"></td>
+      <td class="col4"></td>
+      <td class="col5"></td>
+      <td class="col6"></td>
+      <td class="col7"></td>
+      <td class="col8"></td>
+      <td class="col9"></td>
+      <td class="col10"></td>
+      <td class="col11"></td>
+      <td class="col12"></td>
+      <td class="col13"></td>
+      <td class="col14"></td>
+      <td class="col15"></td>
+      <td class="col16"></td>
+      <td class="col17"></td>
+      <td class="col18"></td>
+      <td class="col19"></td>
+      <td class="col20"></td>
+    </tr>
+    <tr class="row8">
+      <td class="col1"></td>
+      <td class="col2"></td>
+      <td class="col3"></td>
+      <td class="col4"></td>
+      <td class="col5"></td>
+      <td class="col6"></td>
+      <td class="col7"></td>
+      <td class="col8"></td>
+      <td class="col9"></td>
+      <td class="col10"></td>
+      <td class="col11"></td>
+      <td class="col12"></td>
+      <td class="col13"></td>
+      <td class="col14"></td>
+      <td class="col15"></td>
+      <td class="col16"></td>
+      <td class="col17"></td>
+      <td class="col18"></td>
+      <td class="col19"></td>
+      <td class="col20"></td>
+    </tr>
+    <tr class="row9">
+      <td class="col1"></td>
+      <td class="col2"></td>
+      <td class="col3"></td>
+      <td class="col4"></td>
+      <td class="col5"></td>
+      <td class="col6"></td>
+      <td class="col7"></td>
+      <td class="col8"></td>
+      <td class="col9"></td>
+      <td class="col10"></td>
+      <td class="col11"></td>
+      <td class="col12"></td>
+      <td class="col13"></td>
+      <td class="col14"></td>
+      <td class="col15"></td>
+      <td class="col16"></td>
+      <td class="col17"></td>
+      <td class="col18"></td>
+      <td class="col19"></td>
+      <td class="col20"></td>
+    </tr>
+    <tr class="row10">
+      <td class="col1"></td>
+      <td class="col2"></td>
+      <td class="col3"></td>
+      <td class="col4"></td>
+      <td class="col5"></td>
+      <td class="col6"></td>
+      <td class="col7"></td>
+      <td class="col8"></td>
+      <td class="col9"></td>
+      <td class="col10"></td>
+      <td class="col11"></td>
+      <td class="col12"></td>
+      <td class="col13"></td>
+      <td class="col14"></td>
+      <td class="col15"></td>
+      <td class="col16"></td>
+      <td class="col17"></td>
+      <td class="col18"></td>
+      <td class="col19"></td>
+      <td class="col20"></td>
+    </tr>
+    <tr class="row11">
+      <td class="col1"></td>
+      <td class="col2"></td>
+      <td class="col3"></td>
+      <td class="col4"></td>
+      <td class="col5"></td>
+      <td class="col6"></td>
+      <td class="col7"></td>
+      <td class="col8"></td>
+      <td class="col9"></td>
+      <td class="col10"></td>
+      <td class="col11"></td>
+      <td class="col12"></td>
+      <td class="col13"></td>
+      <td class="col14"></td>
+      <td class="col15"></td>
+      <td class="col16"></td>
+      <td class="col17"></td>
+      <td class="col18"></td>
+      <td class="col19"></td>
+      <td class="col20"></td>
+    </tr>
+    <tr class="row12">
+      <td class="col1"></td>
+      <td class="col2"></td>
+      <td class="col3"></td>
+      <td class="col4"></td>
+      <td class="col5"></td>
+      <td class="col6"></td>
+      <td class="col7"></td>
+      <td class="col8"></td>
+      <td class="col9"></td>
+      <td class="col10"></td>
+      <td class="col11"></td>
+      <td class="col12"></td>
+      <td class="col13"></td>
+      <td class="col14"></td>
+      <td class="col15"></td>
+      <td class="col16"></td>
+      <td class="col17"></td>
+      <td class="col18"></td>
+      <td class="col19"></td>
+      <td class="col20"></td>
+    </tr>
+    <tr class="row13">
+      <td class="col1"></td>
+      <td class="col2"></td>
+      <td class="col3"></td>
+      <td class="col4"></td>
+      <td class="col5"></td>
+      <td class="col6"></td>
+      <td class="col7"></td>
+      <td class="col8"></td>
+      <td class="col9"></td>
+      <td class="col10"></td>
+      <td class="col11"></td>
+      <td class="col12"></td>
+      <td class="col13"></td>
+      <td class="col14"></td>
+      <td class="col15"></td>
+      <td class="col16"></td>
+      <td class="col17"></td>
+      <td class="col18"></td>
+      <td class="col19"></td>
+      <td class="col20"></td>
+    </tr>
+    <tr class="row14">
+      <td class="col1"></td>
+      <td class="col2"></td>
+      <td class="col3"></td>
+      <td class="col4"></td>
+      <td class="col5"></td>
+      <td class="col6"></td>
+      <td class="col7"></td>
+      <td class="col8"></td>
+      <td class="col9"></td>
+      <td class="col10"></td>
+      <td class="col11"></td>
+      <td class="col12"></td>
+      <td class="col13"></td>
+      <td class="col14"></td>
+      <td class="col15"></td>
+      <td class="col16"></td>
+      <td class="col17"></td>
+      <td class="col18"></td>
+      <td class="col19"></td>
+      <td class="col20"></td>
+    </tr>
+    <tr class="row15">
+      <td class="col1"></td>
+      <td class="col2"></td>
+      <td class="col3"></td>
+      <td class="col4"></td>
+      <td class="col5"></td>
+      <td class="col6"></td>
+      <td class="col7"></td>
+      <td class="col8"></td>
+      <td class="col9"></td>
+      <td class="col10"></td>
+      <td class="col11"></td>
+      <td class="col12"></td>
+      <td class="col13"></td>
+      <td class="col14"></td>
+      <td class="col15"></td>
+      <td class="col16"></td>
+      <td class="col17"></td>
+      <td class="col18"></td>
+      <td class="col19"></td>
+      <td class="col20"></td>
+    </tr>
+  </table>
+
+
 
   <div id="messages" class="messages" style="min-height: 200px;"></div>
 
