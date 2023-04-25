@@ -8,7 +8,9 @@ var plStrings = {
 	"left_game": "opuszcza grę",
 	"you": "ty",
 	"sends_message": "wysyła wiadomość",
-	"": "",
+	"column_full": "Ta kolumna jest pełna!",
+	"new_game": "Nowa gra",
+	"confirm_new_game": "Czy na pewno chcesz rozpocząć zupełnie nową grę?",
 	"": "",
 	"": "",
 

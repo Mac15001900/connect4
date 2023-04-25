@@ -1,26 +1,28 @@
+/*
+Connect 4 game with a persistent board using Scaledrone
+*/
+
+
 if (!debugConfig) window.debugConfig = {}; //If debug config is not present, assume all options are false
 
 //References to dynamic DOM elements
 const DOM = {
     membersList: document.querySelector('#membersList'),
-    messages: document.querySelector('#messages'),
-    input: document.querySelector('#textInput'),
-    exampleButton: document.querySelector('#exampleButton'),
-    exampleInput: document.querySelector('#exampleInput'),
-    cell: (x, y) => document.querySelector('#board .row' + y + ' .col' + x),
+    startButton: document.querySelector('#startButton'),
+    cell: (x, y) => document.querySelector('#board .row' + (y + 1) + ' .col' + (x + 1)),
 };
 
-var gs = { received: false, order: [], currentTurn: -1, };
+let gs = { received: false, order: [], currentTurn: -1, takenColors: [], cells: [], players: [] };
 
 
 //Name and room selection
 function getUsername() {
-    var name;
+    let name;
     if (debugConfig.random_username) name = getRandomName();
     else name = prompt(s.enter_username, "");
 
     while (!name) {
-        var name = prompt(s.enter_username_non_empty, "");
+        let name = prompt(s.enter_username_non_empty, "");
     }
     myName = name;
     return (name);
@@ -39,22 +41,22 @@ function getRoomName() {
     if (debugConfig.random_server) return (Math.random() * 1000) + "";
 
     //Try to get it from the URL
-    var roomFromURL = (new URLSearchParams(window.location.search)).get('room');
+    let roomFromURL = (new URLSearchParams(window.location.search)).get('room');
     if (roomFromURL) return roomFromURL;
 
-    //If that fails, ask the user for it. If removing DOM, try to make 'shareableLink' accessible another way
-    var chosenName = prompt(s.enter_room_name);
+    //If that fails, ask the user for it.
+    let chosenName = prompt(s.enter_room_name);
     while (!chosenName) chosenName = prompt(s.enter_room_name);
-    var shareableLink = encodeURI(window.location.origin + window.location.pathname + "?room=" + chosenName);
-    addMessageToListDOM(s.shareable_link + " " + shareableLink);
+    let shareableLink = encodeURI(window.location.origin + window.location.pathname + "?room=" + chosenName);
+    alert(s.shareable_link + "\n" + shareableLink);
     return chosenName;
 }
 
-//Displaying things (remove this section if you're not using DOM elements)
+//Displaying things
 function createMemberElement(member) {
     const name = member.clientData.name;
     const el = document.createElement('div');
-    var content = name;
+    let content = name;
     //This is a good place to add extra info about this player by modifying 'el.style' or adding to 'content'
     if (member.id === drone.clientId) content += " (" + s.you + ")";
     el.style.color = 'aqua';
@@ -72,7 +74,7 @@ function addMessageToListDOM(text, member, important = false, color = 'black') {
     //If the message has line breaks, create a message for each line
     if (text.includes('\n')) {
         let messages = text.split('\n');
-        for (var i = 0; i < messages.length; i++) {
+        for (let i = 0; i < messages.length; i++) {
             addMessageToListDOM(messages[i], member);
         }
         return;
@@ -100,8 +102,8 @@ function addElementToListDOM(element) {
 }
 
 //User input
-exampleButton.addEventListener("click", function () {
-    var message = DOM.exampleInput.value;
+DOM.startButton.addEventListener("click", function () {
+    let message = DOM.exampleInput.value;
     if (message) {
         sendMessage("general", message);
         DOM.exampleInput.value = '';
@@ -116,7 +118,7 @@ const languages = { 'en': enStrings, 'pl': plStrings };
 let s = languages[lang];
 
 function initLanguage() {
-    var browsers = navigator.language; //Gets browser's language.
+    let browsers = navigator.language; //Gets browser's language.
     if (languages[browsers]) lang = languages[browsers]; //If not supported, we just keep the default
     translate();
 }
@@ -129,11 +131,11 @@ function changeLanguage(newLanguage) { //Call this to change current language
 }
 
 function translate() {
-    var allDom = document.getElementsByTagName("*");
-    for (var i = 0; i < allDom.length; i++) {
-        var elem = allDom[i];
-        var data = elem.dataset;
-        //Note: only 'innerHTML', 'value' and 'placeholder'will be translated. Support for more must be added here first
+    let allDom = document.getElementsByTagName("*");
+    for (let i = 0; i < allDom.length; i++) {
+        let elem = allDom[i];
+        let data = elem.dataset;
+
         if (data.s) elem.innerHTML = s[data.s];
         if (data.sInnerHTML) elem.innerHTML = s[data.sInnerHTML];
         if (data.sValue) elem.value = s[data.sValue];
@@ -147,32 +149,131 @@ initLanguage(); //Must be called before any user interaction
 const BOARD_HEIGHT = 15;
 const BOARD_WIDTH = 20;
 const CELL_COLORS = ["#1be7ff", "#b85173", "#aceca1", "#ffcab1", "#736ac8", "#b79ced"] //Made with https://coolors.co/1be7ff-b85173-aceca1-ffcab1-736ac8-b79ced
-var cells = [];
-for (var i = 0; i < BOARD_HEIGHT; i++) {
-    cells.append([]);
-    for (var j = 0; j < BOARD_WIDTH; j++) {
-        cells[i].append(-1);
+
+for (let i = 0; i < BOARD_WIDTH; i++) {
+    gs.cells.push([]);
+    for (let j = 0; j < BOARD_HEIGHT; j++) {
+        gs.cells[i].push(-1);
     }
 }
 
 function setCell(x, y, player) {
-    DOM.cell(x, BOARD_HEIGHT - 1 - y).style.backgroundColor = CELL_COLORS[player]
-    cells[x][y] = player
+    //console.log(DOM.cell(x, BOARD_HEIGHT - 1 - y))
+    let color = player >= 0 ? CELL_COLORS[player] : 'transparent';
+    console.log("Setting cell ", x, y, color);
+    DOM.cell(x, BOARD_HEIGHT - 1 - y).style.backgroundColor = color;
+    gs.cells[x][y] = player;
 }
 
 function clicked(cell) {
-    var x = test.cellIndex;
-    var y = BOARD_HEIGHT - 1 - test.parentNode.rowIndex
+    let x = cell.cellIndex;
+    let y = BOARD_HEIGHT - 1 - cell.parentNode.rowIndex
     console.log(cell)
 
-    if (cells[x, BOARD_HEIGHT - 1] >= 0) {
+    if (gs.cells[x][BOARD_HEIGHT - 1] >= 0) {
         alert(s.column_full);
         return;
     }
 
+    //setCell(x, y, 2) //Test
+    //dropInto(x, 2) //Test
+
+    sendMessage('move', x);
+
 
 }
 
+function dropInto(col, player) {
+    console.assert(gs.cells[col][BOARD_HEIGHT - 1] === -1); //This column should have space
+    for (let i = 0; i < BOARD_HEIGHT; i++) {
+        if (gs.cells[col][i] === -1) {
+            setCell(col, i, player)
+            break;
+        }
+    }
+    if (checkWinCondition(gs.cells, player)) console.log(player + " won");
+}
+
+
+//Checks if a specified player has a 4-in-a-row
+function checkWinCondition(cells, player) {
+    //Check for horizontal 4-in-a-rows
+    for (let i = 0; i < BOARD_HEIGHT; i++) {
+        let count = 0;
+        for (let j = 0; j < BOARD_WIDTH; j++) {
+            if (cells[j][i] == player) count++;
+            else count = 0;
+
+            if (count === 4) return true;
+        }
+    }
+    //Check for vertical 4-in-a-rows
+    for (let i = 0; i < BOARD_WIDTH; i++) {
+        let count = 0;
+        for (let j = 0; j < BOARD_HEIGHT; j++) {
+            if (cells[i][j] == player) count++;
+            else count = 0;
+
+            if (count === 4) return true;
+        }
+    }
+    //Check for diagonal 4-in-a-rows (with positive slope)
+    for (let i = 0; i < BOARD_WIDTH - 3; i++) {
+        for (let j = 0; j < BOARD_HEIGHT - 3; j++) {
+            if (cells[i][j] == player &&
+                cells[i + 1][j + 1] == player &&
+                cells[i + 2][j + 2] == player &&
+                cells[i + 3][j + 3] == player)
+                return true;
+        }
+    }
+    //Check for diagonal 4-in-a-rows (with negative slope)
+    for (let i = 0; i < BOARD_WIDTH - 3; i++) {
+        for (let j = 3; j < BOARD_HEIGHT; j++) {
+            if (cells[i][j] == player &&
+                cells[i + 1][j - 1] == player &&
+                cells[i + 2][j - 2] == player &&
+                cells[i + 3][j - 3] == player)
+                return true;
+        }
+    }
+}
+
+//Checks if any player meets the win condition
+function checkWin() {
+    for (let i = 0; i < gs.players.length; i++) {
+        if (checkWinCondition(gs.cells, i)) {
+            console.log(s.win + gs.players[i].name);
+            return true;
+        }
+    }
+    return false;
+}
+
+//Shuffles a list
+function shuffleList(list) {
+    let res = [];
+    while (list.length > 0) {
+        let index = Math.floor(Math.random() * list.length);
+        res.push(list[index]);
+        list.splice(index, 1);
+    }
+    return res;
+
+}
+
+function getFreeColors() {
+    let res = Array.from(Array(CELL_COLORS.length).keys())
+    for (let taken of gs.takenColors) {
+        res.splice(res.indexOf(taken), 1)
+    }
+    return res;
+}
+
+function newGame() {
+    gs.players.push()
+    //TODO
+}
 
 //Networking
 const ROOM_BASE = 'observable-main-'
@@ -193,7 +294,7 @@ function isDebugger(member) {
 
 function sendMessage(type, content) {
     if (debugConfig.disable_messages) return;
-    var message = { type: type, content: content };
+    let message = { type: type, content: content };
     if (members.length === 1) receiveMessage(message, members[0]); //Won't send anything over the network if we're the only player
     else drone.publish({ room: roomName, message: message });
 }
@@ -224,6 +325,9 @@ drone.on('open', error => {
         if (members.length === 1) {
             //This is what happens when the player joins an empty room
             gs.received = true;
+            members[0].color = getFreeColors()[0]; // TODO UI for color choice?
+            gs.takenColors.push(members[0].color);
+            newGame();
         }
         updateMembersDOM();
     });
@@ -232,7 +336,7 @@ drone.on('open', error => {
     room.on('member_join', member => {
         if (isDebugger(member)) return;
         members.push(member);
-        addMessageToListDOM(s.joined_game, member);
+        //addMessageToListDOM(s.joined_game, member);
         if (gs.received) {
             gs.memberData = members;
             sendMessage('welcome', gs);
@@ -243,7 +347,7 @@ drone.on('open', error => {
     // User left the room
     room.on('member_leave', ({ id }) => {
         if (!getMember(id)) return; //If they don't exist, it was probably the debugger
-        addMessageToListDOM(s.left_game, getMember(id));
+        //addMessageToListDOM(s.left_game, getMember(id));
         const index = members.findIndex(member => member.id === id);
         members.splice(index, 1);
         updateMembersDOM();
@@ -259,24 +363,34 @@ function receiveMessage(data, serverMember) {
         let member = getMember(serverMember);
         //console.log(member);
         switch (data.type) {
-            case 'general': //Example message type no 1
-                addMessageToListDOM(s.sends_message + ': ' + data.content, member);
-                break;
-            case 'debug': //Example message type no 2
+            case 'debug':
                 console.log(data.content);
+                break;
+            case 'move': // A player made a move
+                dropInto(data.content, member.color);
+                break;
+            case 'colorChosen': //A new player has chosen their color
+                member.color = data.content;
                 break;
             case 'welcome': //Sent whenever a new player joins the game, informing them of the game state
                 if (!gs.received) {
                     //This is what happens after the player joins a non-empty room
                     gs = data.content;
-                    //'gs' will now contain 'memberData' with all extra info about members; you might want to copy it to 'members'
-                    updateAllUI();
+                    let memberData = gs.memberData;
+                    for (let i = 0; i < memberData.length; i++) {
+                        getMember(memberData[i]).color = memberData[i].color;
+                        getMember(memberData[i]).score = memberData[i].score;
+                    }
+
+                    let myColor = getFreeColors()[0];
+                    sendMessage('colorChosen', myColor);
+                    //updateAllUI();
                 }
                 break;
             default: console.error('Unkown message type received: ' + data.type);
         }
     } else {
-        addMessageToListDOM('Server: ' + data.content);
+        //addMessageToListDOM('Server: ' + data.content);
     }
 }
 

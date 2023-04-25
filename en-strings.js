@@ -9,6 +9,7 @@ var enStrings = {
 	"you": "you",
 	"sends_message": "Sends a message",
 	"column_full": "This column is already full!",
-	"": "",
+	"new_game": "New game",
+	"confirm_new_game": "This will create a new game and reset all current progress. Are you sure?",
 	"": "",
 }
